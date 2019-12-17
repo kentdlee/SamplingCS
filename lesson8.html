@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Lesson 8: Drawing Houses</title>
+<style type="text/css"> 
+<!-- 
+body  {
+	font: 100% Verdana, Arial, Helvetica, sans-serif;
+	background: #666666;
+	margin: 0; /* it's good practice to zero the margin and padding of the body element to account for differing browser defaults */
+	padding: 0;
+	text-align: center; /* this centers the container in IE 5* browsers. The text is then set to the left aligned default in the #container selector */
+	color: #000000;
+}
+
+/* Tips for Elastic layouts 
+1. Since the elastic layouts overall sizing is based on the user's default fonts size, they are more unpredictable. Used correctly, they are also more accessible for those that need larger fonts size since the line length remains proportionate.
+2. Sizing of divs in this layout are based on the 100% font size in the body element. If you decrease the text size overall by using a font-size: 80% on the body element or the #container, remember that the entire layout will downsize proportionately. You may want to increase the widths of the various divs to compensate for this.
+3. If font sizing is changed in differing amounts on each div instead of on the overall design (ie: #sidebar1 is given a 70% font size and #mainContent is given an 85% font size), this will proportionately change each of the divs overall size. You may want to adjust these divs based on your final font sizing.
+*/
+.twoColElsLt #container { 
+	width: 46em;  /* this width will create a container that will fit in an 800px browser window if text is left at browser default font sizes */
+	background: #FFFFFF;
+	margin: 0 auto; /* the auto margins (in conjunction with a width) center the page */
+	border: 1px solid #000000;
+	text-align: left; /* this overrides the text-align: center on the body element. */
+} 
+
+/* Tips for sidebar1:
+1. Be aware that if you set a font-size value on this div, the overall width of the div will be adjusted accordingly.
+2. Since we are working in ems, it's best not to use padding on the sidebar itself. It will be added to the width for standards compliant browsers creating an unknown actual width. 
+3. Space between the side of the div and the elements within it can be created by placing a left and right margin on those elements as seen in the ".twoColElsLt #sidebar1 p" rule.
+*/
+.twoColElsLt #sidebar1 {
+	float: left;
+	width: 12em; /* the background color will be displayed for the length of the content in the column, but no further */
+	padding: 15px 0; /* top and bottom padding create visual space within this div */
+	background-color: #CCFF99;
+}
+.twoColElsLt #sidebar1 h3, .twoColElsLt #sidebar1 p {
+	margin-left: 10px; /* the left and right margin should be given to every element that will be placed in the side columns */
+	margin-right: 10px;
+}
+
+/* Tips for mainContent:
+1. If you give this #mainContent div a font-size value different than the #sidebar1 div, the margins of the #mainContent div will be based on its font-size and the width of the #sidebar1 div will be based on its font-size. You may wish to adjust the values of these divs.
+2. The space between the mainContent and sidebar1 is created with the left margin on the mainContent div.  No matter how much content the sidebar1 div contains, the column space will remain. You can remove this left margin if you want the #mainContent div's text to fill the #sidebar1 space when the content in #sidebar1 ends.
+3. To avoid float drop, you may need to test to determine the approximate maximum image/element size since this layout is based on the user's font sizing combined with the values you set. However, if the user has their browser font size set lower than normal, less space will be available in the #mainContent div than you may see on testing.
+4. In the Internet Explorer Conditional Comment below, the zoom property is used to give the mainContent "hasLayout." This avoids several IE-specific bugs that may occur.
+*/
+.twoColElsLt #mainContent {
+ 	margin: 0 1.5em 0 13em; /* the right margin can be given in ems or pixels. It creates the space down the right side of the page. */
+} 
+
+/* Miscellaneous classes for reuse */
+.fltrt { /* this class can be used to float an element right in your page. The floated element must precede the element it should be next to on the page. */
+	float: right;
+	margin-left: 8px;
+}
+.fltlft { /* this class can be used to float an element left in your page */
+	float: left;
+	margin-right: 8px;
+}
+.clearfloat { /* this class should be placed on a div or break element and should be the final element before the close of a container that should fully contain a float */
+	clear:both;
+    height:0;
+    font-size: 1px;
+    line-height: 0px;
+}
+.style1 {font-style: italic}
+--> 
+</style>
+<!--[if IE]>
+<style type="text/css"> 
+/* place css fixes for all versions of IE in this conditional comment */
+.twoColElsLt #sidebar1 { padding-top: 30px; }
+.twoColElsLt #mainContent { zoom: 1; padding-top: 15px; }
+/* the above proprietary zoom property gives IE the hasLayout it needs to avoid several bugs */
+</style>
+<![endif]--></head>
+
+<body class="twoColElsLt">
+
+<div id="container">
+  <div class="style1" id="sidebar1">
+    <h3>Functions can do many things</h3>
+    <p>Functions in Python can be used for many different purposes. </p>
+    <p>Sometimes functions return a value as they did in the last lesson. </p>
+    <p>Sometimes a function may have some side-effects. In the functions in this lesson students learn they can write a function that draws a shape. Once they have done this, they can use the function over and over again to draw lots of shapes in their program.</p>
+    <p>When you write a function it defines it's own <strong>SCOPE</strong>. Scope refers to the variables that are defined within a function. Any time a variable is assigned a value, it is a variable only for that function. In other words if you see </p>
+    <p>x = <strong>anything</strong></p>
+    <p>where x is any variable, then x only exists while that function is called. Likewise, the names t,x,y,scale, and color that appear in the drawSquare function definition to the right only exist while the drawSquare function is executing and cannot be accessed from the <strong>main</strong> function for instance.</p>
+    <p>Conversely, the variables in <strong>main</strong> cannot be accessed from the <strong>drawSquare</strong> function. So, for instance, <strong>turtle</strong> cannot be accessed from <strong>drawSquare</strong>. However, since <strong>turtle</strong> is passed to drawSquare it gets the name <strong>t</strong> in the drawSquare function. </p>
+    <p><strong>Scope</strong> is an important concept to learn when writing computer programs. </p>
+  </div>
+  <div id="mainContent">
+    <h1>Drawing Houses</h1>
+    <p>In the last lesson we learned that functions can be used to compute values and return them in our programs. Now we'll see how to use a function to draw lots of shapes in a program. When writing a function there are three things you should decide. </p>
+    <ul>
+      <li>What should my function be named?</li>
+      <li>What information does my function need to do its job?</li>
+      <li>What type of value will my function return?</li>
+    </ul>
+    <p>Let's consider an example. What if we want to draw a square in the graphics window. We could write this as a function called drawSquare. It would need to be given a Turtle to draw with and an (x,y) coordinate so it knew where to draw it. To make it more useful we'll also give it a scale for the square. The scale can be used to produce squares of different sizes. We could pick 100 to be a full scale (scale = 1.0) square. </p>
+    <p>This results in the program given here.</p>
+    <p><!-- end #mainContent -->
+      <a href="LessonPrograms/drawfun.py"><img src="squarefunprog.png" width="417" height="766" /></a><br>
+      In this program the random module is used to generate random numbers. Calling random.random() produces a random number between 0 and 1. So when this program is run, 100 squares appear in the graphics window of random size and at random locations on the screen. To use random we had to <strong>import random</strong> at the top of the program.</p>
+    <h2>Now You Try It</h2>
+    <p>Write a program that draws houses on the screen of random size and at random locations on the screen. Use the program above as a guide. Call your function drawHouse. Be sure to give it the correct parameters so the house can be drawn. You'll need all the same parameters that drawSquare used. Use the forward, left, and right commands like drawSquare used to draw the house. Multiply each forward value by scale so your houses can be scaled. You can color your house if you like. As a bare minimum your house should have a roof, a door, and a window. </p>
+  </div>
+	<!-- This clearing element should immediately follow the #mainContent div in order to force the #container div to contain all child floats --><br class="clearfloat" />
+<!-- end #container --></div>
+</body>
+</html>

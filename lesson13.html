@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Lesson 13: Blowing Up Asteroids</title>
+<style type="text/css"> 
+<!-- 
+body  {
+	font: 100% Verdana, Arial, Helvetica, sans-serif;
+	background: #666666;
+	margin: 0; /* it's good practice to zero the margin and padding of the body element to account for differing browser defaults */
+	padding: 0;
+	text-align: center; /* this centers the container in IE 5* browsers. The text is then set to the left aligned default in the #container selector */
+	color: #000000;
+}
+
+/* Tips for Elastic layouts 
+1. Since the elastic layouts overall sizing is based on the user's default fonts size, they are more unpredictable. Used correctly, they are also more accessible for those that need larger fonts size since the line length remains proportionate.
+2. Sizing of divs in this layout are based on the 100% font size in the body element. If you decrease the text size overall by using a font-size: 80% on the body element or the #container, remember that the entire layout will downsize proportionately. You may want to increase the widths of the various divs to compensate for this.
+3. If font sizing is changed in differing amounts on each div instead of on the overall design (ie: #sidebar1 is given a 70% font size and #mainContent is given an 85% font size), this will proportionately change each of the divs overall size. You may want to adjust these divs based on your final font sizing.
+*/
+.twoColElsLt #container { 
+	width: 46em;  /* this width will create a container that will fit in an 800px browser window if text is left at browser default font sizes */
+	background: #FFFFFF;
+	margin: 0 auto; /* the auto margins (in conjunction with a width) center the page */
+	border: 1px solid #000000;
+	text-align: left; /* this overrides the text-align: center on the body element. */
+} 
+
+/* Tips for sidebar1:
+1. Be aware that if you set a font-size value on this div, the overall width of the div will be adjusted accordingly.
+2. Since we are working in ems, it's best not to use padding on the sidebar itself. It will be added to the width for standards compliant browsers creating an unknown actual width. 
+3. Space between the side of the div and the elements within it can be created by placing a left and right margin on those elements as seen in the ".twoColElsLt #sidebar1 p" rule.
+*/
+.twoColElsLt #sidebar1 {
+	float: left;
+	width: 12em; /* the background color will be displayed for the length of the content in the column, but no further */
+	padding: 15px 0; /* top and bottom padding create visual space within this div */
+	background-color: #CCFF99;
+}
+.twoColElsLt #sidebar1 h3, .twoColElsLt #sidebar1 p {
+	margin-left: 10px; /* the left and right margin should be given to every element that will be placed in the side columns */
+	margin-right: 10px;
+}
+
+/* Tips for mainContent:
+1. If you give this #mainContent div a font-size value different than the #sidebar1 div, the margins of the #mainContent div will be based on its font-size and the width of the #sidebar1 div will be based on its font-size. You may wish to adjust the values of these divs.
+2. The space between the mainContent and sidebar1 is created with the left margin on the mainContent div.  No matter how much content the sidebar1 div contains, the column space will remain. You can remove this left margin if you want the #mainContent div's text to fill the #sidebar1 space when the content in #sidebar1 ends.
+3. To avoid float drop, you may need to test to determine the approximate maximum image/element size since this layout is based on the user's font sizing combined with the values you set. However, if the user has their browser font size set lower than normal, less space will be available in the #mainContent div than you may see on testing.
+4. In the Internet Explorer Conditional Comment below, the zoom property is used to give the mainContent "hasLayout." This avoids several IE-specific bugs that may occur.
+*/
+.twoColElsLt #mainContent {
+ 	margin: 0 1.5em 0 13em; /* the right margin can be given in ems or pixels. It creates the space down the right side of the page. */
+} 
+
+/* Miscellaneous classes for reuse */
+.fltrt { /* this class can be used to float an element right in your page. The floated element must precede the element it should be next to on the page. */
+	float: right;
+	margin-left: 8px;
+}
+.fltlft { /* this class can be used to float an element left in your page */
+	float: left;
+	margin-right: 8px;
+}
+.clearfloat { /* this class should be placed on a div or break element and should be the final element before the close of a container that should fully contain a float */
+	clear:both;
+    height:0;
+    font-size: 1px;
+    line-height: 0px;
+}
+.style1 {font-style: italic}
+--> 
+</style>
+<!--[if IE]>
+<style type="text/css"> 
+/* place css fixes for all versions of IE in this conditional comment */
+.twoColElsLt #sidebar1 { padding-top: 30px; }
+.twoColElsLt #mainContent { zoom: 1; padding-top: 15px; }
+/* the above proprietary zoom property gives IE the hasLayout it needs to avoid several bugs */
+</style>
+<![endif]--></head>
+
+<body class="twoColElsLt">
+
+<div id="container">
+  <div class="style1" id="sidebar1">
+    <h3>A little math and some more game rule writing!</h3>
+    <p>In this lesson students learn how to do the math to find if two items intersect in a game. </p>
+    <p>There is some programming involved in discovering whether a PhotonTorpedo and an Asteroid intersect. </p>
+    <p>Students learn what it takes to begin programming the rules of the game.</p>
+  </div>
+  <div id="mainContent">
+    <h1>Blowing Up Asteroids</h1>
+    <p>In this lesson you learn what it takes to blow up an asteroid. For a Photon Torpedo to blow up an asteroid it must &quot;hit&quot; the asteroid. This means that the torpedo must be relatively close to the asteroid. We need to know the distance from the asteroid to the torpedo. This picture helps depict what we need to compute.</p>
+    <p><img src="/~leekent/SamplingCS/distance.gif" width="256" height="183" align="right" />The distance between two objects, in this case a torpedo and an asteroid, can be drawn using a right triangle. If the torpedo is at (x1,y1) and the asteroid is at (x2,y2) then the distance between the two can be computed using the Pythagorean Theorem. This states that a^2 + b^2 = c^2. To compute the distance between two points you need to find the length of a and b, then square the two values and add them together. Then take the square root to solve for c. The distance between to points (x1, y1) and (x2, y2) is computed as </p>
+    <pre>distance = math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)</pre>
+    <p>So, to see if a torpedo has hit an asteroid we want to know if the distance is small enough that the torpedo and the asteroid have collided. Since both the torpedo and the asteroid have a radius, we can see if the sum of the two radii is greater than the distance between them. If it is, then the torpedo and the asteroid have collided. </p>
+    <p>Since the collision of two objects needs to be detected for more than just torpedoes and asteroids, we can write a function to check this for us. We'll call the function intersect and it will return True if two objects on the screen intersect and False otherwise. </p>
+    <p><strong>This code should already be in your program just before the<em> main </em>function.</strong></p>
+    <pre>def intersect(object1,object2):
+    dist = math.sqrt((object1.xcor() - object2.xcor())**2 + \
+        (object1.ycor() - object2.ycor())**2)
+ 
+    radius1 = object1.getRadius()
+    radius2 = object2.getRadius()
+ 
+    # The following if statement could be written as 
+    # return dist &lt;= radius1+radius2
+    if dist &lt;= radius1+radius2:
+        return True
+    else:
+        return False
+</pre>
+    <p>Now, we can call that function to see if and asteroid and a torpedo have intersected (i.e. collided). To do this, for each torpedo we must ask if it collides with any asteroid. We can do this with what are called nested for loops. </p>
+    <p><strong>This code goes in the play function. Since it uses the deadbullets list, add it at the end of the play function just before call to set the timer.</strong></p>
+    <pre>        hitasteroids = []
+        for bullet in bullets:
+            for asteroid in asteroids:
+                if not asteroid in hitasteroids and \
+                             intersect(bullet,asteroid):
+                    deadbullets.append(bullet)
+                    hitasteroids.append(asteroid)
+                    asteroid.setDX(bullet.getDX() + \
+                      asteroid.getDX())
+                    asteroid.setDY(bullet.getDY() + \
+                      asteroid.getDY())</pre>
+    <p>The code above does two things. It adds the hit asteroids to a list of hit asteroids and the torpedo to a list dead bullets. Then it also sets the dx and dy of the asteroid to a combination of the torpedo and asteroid's dx and dy. This is so the busted up asteroids move in a nice direction when they are created. </p>
+    <p>When we hit an asteroid two things must happen. The asteroid must bust apart if it is big enough or disappear if it is small and we must score some points. To keep track of the score we can keep a score variable and we'll want to display it. To display the score we need to create a label and put it in the GUI window. Here is the code to do that.</p>
+    <p><strong>This code should go in the main function right after the frame.pack line.</strong></p>
+    <pre>    # The first line below is already in your program!!!!
+    frame.pack(side = tkinter.RIGHT,fill=tkinter.BOTH)
+
+
+    # You need to add these lines.
+
+    scoreVal = tkinter.StringVar()<br />    scoreVal.set(&quot;0&quot;)<br />    scoreTitle = tkinter.Label(frame,text=&quot;Score&quot;)<br />    scoreTitle.pack()<br />    scoreFrame = tkinter.Frame(frame,height=2, bd=1, \
+        relief=tkinter.SUNKEN)<br />    scoreFrame.pack()<br />    score = tkinter.Label(scoreFrame,height=2,width=20,\
+        textvariable=scoreVal,fg=&quot;Yellow&quot;,bg=&quot;black&quot;)<br />    <br />    score.pack()
+
+</pre>
+    <p>To bust up the asteroids, we must go through the list of hit asteroids and bust them up. This means that if the asteroid is big enough we'll delete the current asteroid and replace it with two smaller asteroids. Otherwise, the asteroid just disappears. At the same time we'll update the score.</p>
+    <p>When an asteroids breaks apart, the direction of each of the smaller asteroids is made to be perpendicular to the direction of the bullet and original asteroid it hit. </p>
+    <p><strong>This code goes in the play function after building the list of hit asteroids.</strong><br>
+    </p>
+    <pre>        for asteroid in hitasteroids:<br />            try:<br />                asteroids.remove(asteroid)<br />            except:<br />                print(&quot;didn't find asteroid in list&quot;)<br />               <br />            asteroid.ht()<br />            size = asteroid.getSize()<br />            <br />            score = int(scoreVal.get())<br />            <br />            if size == 3:<br />                score += 20<br />            elif size == 2:<br />                score += 50<br />            elif size == 1:<br />                score += 100<br />                <br />            scoreVal.set(str(score))<br />            <br />            if asteroid.getSize() &gt; 1:<br />                dx = asteroid.getDX()<br />                dy = asteroid.getDY()<br />                dist = math.sqrt(dx ** 2 + dy ** 2)<br />                normDx = asteroid.getDX() / dist<br />                normDy = asteroid.getDY() / dist<br />                <br />                asteroid1 = Asteroid(cv,-normDy,normDx, \
+                  asteroid.xcor(),asteroid.ycor(), \
+                  asteroid.getSize()-1)<br />                asteroid2 = Asteroid(cv,normDy,-normDx, \
+                  asteroid.xcor(),asteroid.ycor(), \
+                  asteroid.getSize()-1)<br />                asteroids.append(asteroid1)<br />                asteroids.append(asteroid2)
+</pre>
+    <p>If everything has gone well, you are now shooting asteroids and blowing them up. The score updates to reflect the number of points you've accumulated. The only problem is that at this point, the asteroids can't hurt the spaceship.</p>
+    <h2>Have More Time?</h2>
+    <p>It's possible to make the asteroids rotate with just a few lines of code. Rotating asteroids makes the game just a little more realistic and interesting. </p>
+    <p>Since an asteroid is a turtle, changing the heading of the asteroid has the effect of rotating it. In the __init__ method of the asteroid you can create a random number between 0 and 5 with a call to the random.random() function. This can be stored in the object by writing</p>
+    <pre>        self.rotation = random.random() * 5</pre>
+    <p>    Then,     in the move function you'll want to rotate the asteroid by that amount by calling setheading. To do this you'll have to get the current heading and add the random rotation amount to it.</p>
+    <pre>        self.setheading(self.heading()+self.rotation)	</pre>
+    <h2>What's Next?</h2>
+    <p>Next time we'll make the program keep track of our lives and recognize when the game is over.</p>
+    <p>&nbsp;</p>
+  </div>
+  </div>
+</body>
+</html>

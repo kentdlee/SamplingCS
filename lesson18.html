@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Lesson 18: Undo!</title>
+<style type="text/css"> 
+<!-- 
+body  {
+	font: 100% Verdana, Arial, Helvetica, sans-serif;
+	background: #666666;
+	margin: 0; /* it's good practice to zero the margin and padding of the body element to account for differing browser defaults */
+	padding: 0;
+	text-align: center; /* this centers the container in IE 5* browsers. The text is then set to the left aligned default in the #container selector */
+	color: #000000;
+}
+
+/* Tips for Elastic layouts 
+1. Since the elastic layouts overall sizing is based on the user's default fonts size, they are more unpredictable. Used correctly, they are also more accessible for those that need larger fonts size since the line length remains proportionate.
+2. Sizing of divs in this layout are based on the 100% font size in the body element. If you decrease the text size overall by using a font-size: 80% on the body element or the #container, remember that the entire layout will downsize proportionately. You may want to increase the widths of the various divs to compensate for this.
+3. If font sizing is changed in differing amounts on each div instead of on the overall design (ie: #sidebar1 is given a 70% font size and #mainContent is given an 85% font size), this will proportionately change each of the divs overall size. You may want to adjust these divs based on your final font sizing.
+*/
+.twoColElsLt #container { 
+	width: 46em;  /* this width will create a container that will fit in an 800px browser window if text is left at browser default font sizes */
+	background: #FFFFFF;
+	margin: 0 auto; /* the auto margins (in conjunction with a width) center the page */
+	border: 1px solid #000000;
+	text-align: left; /* this overrides the text-align: center on the body element. */
+} 
+
+/* Tips for sidebar1:
+1. Be aware that if you set a font-size value on this div, the overall width of the div will be adjusted accordingly.
+2. Since we are working in ems, it's best not to use padding on the sidebar itself. It will be added to the width for standards compliant browsers creating an unknown actual width. 
+3. Space between the side of the div and the elements within it can be created by placing a left and right margin on those elements as seen in the ".twoColElsLt #sidebar1 p" rule.
+*/
+.twoColElsLt #sidebar1 {
+	float: left;
+	width: 12em; /* the background color will be displayed for the length of the content in the column, but no further */
+	padding: 15px 0; /* top and bottom padding create visual space within this div */
+	background-color: #CCFF99;
+}
+.twoColElsLt #sidebar1 h3, .twoColElsLt #sidebar1 p {
+	margin-left: 10px; /* the left and right margin should be given to every element that will be placed in the side columns */
+	margin-right: 10px;
+}
+
+/* Tips for mainContent:
+1. If you give this #mainContent div a font-size value different than the #sidebar1 div, the margins of the #mainContent div will be based on its font-size and the width of the #sidebar1 div will be based on its font-size. You may wish to adjust the values of these divs.
+2. The space between the mainContent and sidebar1 is created with the left margin on the mainContent div.  No matter how much content the sidebar1 div contains, the column space will remain. You can remove this left margin if you want the #mainContent div's text to fill the #sidebar1 space when the content in #sidebar1 ends.
+3. To avoid float drop, you may need to test to determine the approximate maximum image/element size since this layout is based on the user's font sizing combined with the values you set. However, if the user has their browser font size set lower than normal, less space will be available in the #mainContent div than you may see on testing.
+4. In the Internet Explorer Conditional Comment below, the zoom property is used to give the mainContent "hasLayout." This avoids several IE-specific bugs that may occur.
+*/
+.twoColElsLt #mainContent {
+ 	margin: 0 1.5em 0 13em; /* the right margin can be given in ems or pixels. It creates the space down the right side of the page. */
+} 
+
+/* Miscellaneous classes for reuse */
+.fltrt { /* this class can be used to float an element right in your page. The floated element must precede the element it should be next to on the page. */
+	float: right;
+	margin-left: 8px;
+}
+.fltlft { /* this class can be used to float an element left in your page */
+	float: left;
+	margin-right: 8px;
+}
+.clearfloat { /* this class should be placed on a div or break element and should be the final element before the close of a container that should fully contain a float */
+	clear:both;
+    height:0;
+    font-size: 1px;
+    line-height: 0px;
+}
+.style1 {font-style: italic}
+--> 
+</style>
+<!--[if IE]>
+<style type="text/css"> 
+/* place css fixes for all versions of IE in this conditional comment */
+.twoColElsLt #sidebar1 { padding-top: 30px; }
+.twoColElsLt #mainContent { zoom: 1; padding-top: 15px; }
+/* the above proprietary zoom property gives IE the hasLayout it needs to avoid several bugs */
+</style>
+<![endif]--></head>
+
+<body class="twoColElsLt">
+
+<div id="container">
+  <div class="style1" id="sidebar1">
+    <h3>Drawing is cool!</h3>
+    <p>Drawing pictures with turtle graphics can illustrate important computer science concepts while being fun as well. </p>
+    <p>This series of lessons shows students how to create a drawing program that draws pictures with color, different line characteristics, and shapes. It also will show students how to save and reload a picture in their program. </p>
+    <p>&nbsp;</p>
+  </div>
+  <div id="mainContent">
+    <h1>Undo!</h1>
+    <p>Anytime you draw, you ought be be able to undo what you drew because we all make mistakes. To undo a mistake in a drawing program, you need to remember all the actions you took to draw the picture, discard the last one, and redraw the picture from the beginning without the last action. </p>
+    <p>To remember the actions you took in a program, we are going to remember all the points in the program along with all their attributes. Our attributes we need to remember are the coordinate, color, width, and whether or not the pen was up when we drew the next point. To help us with this, we'll define a class in Python. A class is a way of discribing a collection of data and the messages we send to that data. Here is the Point class. </p>
+    <pre>class Point:
+   def __init__(self,x,y,color,width,penup):
+      self.x = x
+      self.y = y
+      self.color = color
+      self.width = width
+      self.penup = penup
+ 
+   def draw(self,turtle):
+      if self.penup:
+         turtle.penup()
+      else:
+         turtle.pendown()
+         turtle.color(self.color)
+         turtle.width(self.width)
+      turtle.goto(self.x,self.y) 
+ 
+   def getXY(self):
+      return (self.x, self.y)
+ 
+
+</pre>
+    <p>The code above is used to define the collection of data that make up a point and all the messages that can be sent to a point. The <strong>def __init__</strong> above describes what is called the constructor. The constructor makes it possible to create a Point object by writing something like </p>
+    <p><em>p = Point(100,200,&quot;red&quot;,2,False)</em></p>
+    <p>The line above does not get copied into your program. It is an example of creating a point object that has an X coordinate of 100, a Y coordinate of 200, with a red line leading to it, a width of 2 on the line, and the pen is down when the line is drawn. If you look carefully, the <strong>def __init__</strong> above has all the same parameters as this example except for one additional parameter called <em>self</em>. The <em>self</em> parameter is supplied by Python and always points to the current object. By Python providing the <em>self</em> parameter, we can write code that will work for any point object that we create. </p>
+    <p>The other def statements above define the messages that can be sent to a point object. For instance, we can write</p>
+    <p><em>p.draw(t)</em></p>
+    <p>Where t is a Turtle to draw the point on the screen. We can also write</p>
+    <p><em>x,y = p.getXY()</em></p>
+    <p>to get the X and Y coordinates from a point. <strong>Neither of these lines of code belong in your program by themselves, but we'll use them when implementing the <em>undo</em> function in our program. </strong></p>
+    <p>To continue implementing the undo function, we need to remember the points that we have drawn. To begin, we'll create a list of points that remember all the points we will draw. We put this code in our main function somewhere before the call to mainloop at the end of the program.</p>
+    <pre>   data[&quot;points&quot;] = [Point(0,0,&quot;black&quot;,1,False)] </pre>
+    <p>In the timerHandler we can add these lines of code</p>
+    <pre>         p = Point(x,y,c,w,data[&quot;penup&quot;])
+         p.draw(t)
+         data[&quot;points&quot;].append(p)</pre>
+    <p>to replace these lines of code that currently draws the point.</p>
+    <pre>         t.width(w)
+         t.color(c)
+
+         t.goto(x,y)</pre>
+    <p>Appending a new point to the end of the list of points allows us to keep track of all the points we have drawn so far (and the lines between them). </p>
+    <p><strong>Be sure to do the same thing in the clickHandler code to append a new point to the data[&quot;points&quot;] list. </strong></p>
+    <p>Finally, to undo our last action, we'll add an Undo button.</p>
+    <pre>   def clear():<br />      t.clear()<br />      t.speed(1000)<br />      screen.tracer(10000)
+
+   def undoHandler():
+      if len(data[&quot;points&quot;]) &gt; 0:
+         x,y = data[&quot;points&quot;][0].getXY()
+         data[&quot;points&quot;].pop()
+         clear()
+         t.penup()</pre>
+    <pre>         t.goto(x,y)
+         t.pendown()</pre>
+    <pre>         for i in range(len(data[&quot;points&quot;])):
+            data[&quot;points&quot;][i].draw(t) </pre>
+    <pre>         screen.update()
+         
+   undoButton = tkinter.Button(frame, \
+                text=&quot;Undo&quot;,command=undoHandler)
+   undoButton.pack() </pre>
+    <p>If you get stuck, ask for help!</p>
+  </div>
+  <!-- This clearing element should immediately follow the #mainContent div in order to force the #container div to contain all child floats --><br class="clearfloat" />
+<!-- end #container --></div>
+</body>
+</html>

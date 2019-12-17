@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Lesson 14: Blowing Up the Spaceship</title>
+<style type="text/css"> 
+<!-- 
+body  {
+	font: 100% Verdana, Arial, Helvetica, sans-serif;
+	background: #666666;
+	margin: 0; /* it's good practice to zero the margin and padding of the body element to account for differing browser defaults */
+	padding: 0;
+	text-align: center; /* this centers the container in IE 5* browsers. The text is then set to the left aligned default in the #container selector */
+	color: #000000;
+}
+
+/* Tips for Elastic layouts 
+1. Since the elastic layouts overall sizing is based on the user's default fonts size, they are more unpredictable. Used correctly, they are also more accessible for those that need larger fonts size since the line length remains proportionate.
+2. Sizing of divs in this layout are based on the 100% font size in the body element. If you decrease the text size overall by using a font-size: 80% on the body element or the #container, remember that the entire layout will downsize proportionately. You may want to increase the widths of the various divs to compensate for this.
+3. If font sizing is changed in differing amounts on each div instead of on the overall design (ie: #sidebar1 is given a 70% font size and #mainContent is given an 85% font size), this will proportionately change each of the divs overall size. You may want to adjust these divs based on your final font sizing.
+*/
+.twoColElsLt #container { 
+	width: 46em;  /* this width will create a container that will fit in an 800px browser window if text is left at browser default font sizes */
+	background: #FFFFFF;
+	margin: 0 auto; /* the auto margins (in conjunction with a width) center the page */
+	border: 1px solid #000000;
+	text-align: left; /* this overrides the text-align: center on the body element. */
+} 
+
+/* Tips for sidebar1:
+1. Be aware that if you set a font-size value on this div, the overall width of the div will be adjusted accordingly.
+2. Since we are working in ems, it's best not to use padding on the sidebar itself. It will be added to the width for standards compliant browsers creating an unknown actual width. 
+3. Space between the side of the div and the elements within it can be created by placing a left and right margin on those elements as seen in the ".twoColElsLt #sidebar1 p" rule.
+*/
+.twoColElsLt #sidebar1 {
+	float: left;
+	width: 12em; /* the background color will be displayed for the length of the content in the column, but no further */
+	padding: 15px 0; /* top and bottom padding create visual space within this div */
+	background-color: #CCFF99;
+}
+.twoColElsLt #sidebar1 h3, .twoColElsLt #sidebar1 p {
+	margin-left: 10px; /* the left and right margin should be given to every element that will be placed in the side columns */
+	margin-right: 10px;
+}
+
+/* Tips for mainContent:
+1. If you give this #mainContent div a font-size value different than the #sidebar1 div, the margins of the #mainContent div will be based on its font-size and the width of the #sidebar1 div will be based on its font-size. You may wish to adjust the values of these divs.
+2. The space between the mainContent and sidebar1 is created with the left margin on the mainContent div.  No matter how much content the sidebar1 div contains, the column space will remain. You can remove this left margin if you want the #mainContent div's text to fill the #sidebar1 space when the content in #sidebar1 ends.
+3. To avoid float drop, you may need to test to determine the approximate maximum image/element size since this layout is based on the user's font sizing combined with the values you set. However, if the user has their browser font size set lower than normal, less space will be available in the #mainContent div than you may see on testing.
+4. In the Internet Explorer Conditional Comment below, the zoom property is used to give the mainContent "hasLayout." This avoids several IE-specific bugs that may occur.
+*/
+.twoColElsLt #mainContent {
+ 	margin: 0 1.5em 0 13em; /* the right margin can be given in ems or pixels. It creates the space down the right side of the page. */
+} 
+
+/* Miscellaneous classes for reuse */
+.fltrt { /* this class can be used to float an element right in your page. The floated element must precede the element it should be next to on the page. */
+	float: right;
+	margin-left: 8px;
+}
+.fltlft { /* this class can be used to float an element left in your page */
+	float: left;
+	margin-right: 8px;
+}
+.clearfloat { /* this class should be placed on a div or break element and should be the final element before the close of a container that should fully contain a float */
+	clear:both;
+    height:0;
+    font-size: 1px;
+    line-height: 0px;
+}
+.style1 {font-style: italic}
+--> 
+</style>
+<!--[if IE]>
+<style type="text/css"> 
+/* place css fixes for all versions of IE in this conditional comment */
+.twoColElsLt #sidebar1 { padding-top: 30px; }
+.twoColElsLt #mainContent { zoom: 1; padding-top: 15px; }
+/* the above proprietary zoom property gives IE the hasLayout it needs to avoid several bugs */
+</style>
+<![endif]--></head>
+
+<body class="twoColElsLt">
+
+<div id="container">
+  <div class="style1" id="sidebar1">
+    <h3>Making the game more realistic!</h3>
+    <p>Timing is important to any game. If we are simulating an environment, having it slow down or speed up ruins the simulation if it isn't actually part of the game. </p>
+    <p>In this lesson students learn how to time code to make the simulation more realistic. </p>
+  </div>
+  <div id="mainContent">
+    <h1>Fixing the Speed</h1>
+    <p>For asteroids to be realistic, the speed should now slow down when we shoot at asteroids and speed up again when the torpedoes die. However, the fact is that when we fire a torpedo there is more work to do. We have to check each time the torpedo moves if it has hit an asteroid. This will slow down the game unless we make sure that when there are no torpedoes that it takes the same amount of time for the <strong>play</strong> function to execute as when there are torpedoes. That is the key to our animation running at one speed. The <strong>play</strong> function must be called on regular intervals. Let's say every 10 milliseconds we should call <strong>play</strong>.</p>
+    <p>To guarantee that play does not take more than 10 milliseconds to execute, we'll limit the number of torpedoes to 20. To do this, you must modify some existing code when Photon Torpedoes are fired.</p>
+    <pre>    def fire():<br />        if len(bullets) &lt; 20:<br />            bullet = PhotonTorpedo(cv,ship.xcor(),ship.ycor(),\
+              ship.heading(),ship.getDX(),ship.getDY())<br />            bullets.append(bullet)<br />        <br />    screen.onkeypress(fire,&quot; &quot;)</pre>
+    <p>This will guarantee that there are no more than 20 torpedoes (i.e. bullets) in the list of bullets at any one time. </p>
+    <p>Next, we'll turn off screen updates and control that by ourselves. We'll do this because if screen updates are done automatically, then we can't tell exactly when they are done. That could mess up our timing of the play function calls. Since play will be called on regular intervals, we'll just update the screen ourselves. </p>
+    <p>Find the line in the code that contains <strong>screen.tracer(10)</strong>. Change this line to:</p>
+    <pre>    screen.tracer(0)</pre>
+    <p>For the screen to update, we must manually call update now. At the beginning of the play function, call the update method on the screen.</p>
+    <pre>    def play():
+        screen.update()</pre>
+    <p>Now, to time the play function we need the help of some other code. We need to import the datetime module to be able to get the time when we need it. Import statements go at the top of your module or program.</p>
+    <pre>import datetime</pre>
+    <p>Now we want to measure how many milliseconds it takes to execute the play function. We can find this out by getting the current time when the play function starts and the current time just before the play function ends. Then we can subtract the start time from the end time and that will tell us how long it took for the play function to execute. </p>
+    <p>So at the beginning of the play function we need to record the current time.</p>
+    <pre>        start = datetime.datetime.now()
+</pre>
+    <p>Then, at the end of the play function, just before the call to update the screen, we'll get the time again. At the same time we'll calculate the amount of time it took to run the play function and set the timer to call play again precisely 10 milliseconds from when it was last called.</p>
+    <pre>        end = datetime.datetime.now()</pre>
+    <pre>        duration = end - start
+         
+        millis = duration.microseconds / 1000.0
+   
+        # Set the timer to go off again
+        screen.ontimer(play,int(10-millis))</pre>
+    <p>The duration doesn't give us milliseconds, but we can get the microseconds. A microsecond is a millionth of a second. A millisecond is a thousandth. So if we divide by 1000 then we can convert microseconds to milliseconds. The new call to ontimer guarantees we'll call play again precisely 10 milliseconds after it was last called. </p>
+    <h2>Have More Time?</h2>
+    <p>This game is a complete game, but Atrari's asteroids did contain more elements. There were flying saucers that could shoot at the spaceship. If the spaceship shot down a flying saucer then the player scored 200 points. Small flying saucers were worth 1000 points. </p>
+    <p>There are also more levels to the Atari version. More levels could be added by making a level variable and increasing it for each level.</p>
+    <h2>What's Next?</h2>
+    <p>Computer programming is a fun, creative discipline. It has consistently been rated as one of the top jobs in America in terms of job satisfaction, pay, and benefits. The decision of which career you will pursue may seem like it's a long way off, but it'll come sooner than you might expect. </p>
+    <p>In the meantime, you can learn more about computer programming to see if it is something you might enjoy doing for a lifetime. To learn more, get yourself an introductory text like <a href="http://cs.luther.edu/~leekent/IntroToComputing">Python Programming Fundamentals by Kent D. Lee</a> or <a href="http://www.amazon.com/Python-Programming-Context-Bradley-Miller/dp/0763746029/ref=sr_1_2?ie=UTF8&amp;s=books&amp;qid=1276210929&amp;sr=8-2">Python Programming in Context by Brad Miller and David Ranum</a>. These texts will introduce the concepts you need to know and skills you need to develop to become a computer programming. One text will not make you an expert, but it will get you started. Either of these texts is what college students use when majoring in Computer Science at Luther College. </p>
+    <p>Most importantly, have fun! Learning to program can be a lot of fun. You can program all kinds of games and useful applications with Python.</p>
+  </div>
+  </div>
+</body>
+</html>

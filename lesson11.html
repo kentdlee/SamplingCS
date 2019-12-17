@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Lesson 11: Asteroids!</title>
+<style type="text/css"> 
+<!-- 
+body  {
+	font: 100% Verdana, Arial, Helvetica, sans-serif;
+	background: #666666;
+	margin: 0; /* it's good practice to zero the margin and padding of the body element to account for differing browser defaults */
+	padding: 0;
+	text-align: center; /* this centers the container in IE 5* browsers. The text is then set to the left aligned default in the #container selector */
+	color: #000000;
+}
+
+/* Tips for Elastic layouts 
+1. Since the elastic layouts overall sizing is based on the user's default fonts size, they are more unpredictable. Used correctly, they are also more accessible for those that need larger fonts size since the line length remains proportionate.
+2. Sizing of divs in this layout are based on the 100% font size in the body element. If you decrease the text size overall by using a font-size: 80% on the body element or the #container, remember that the entire layout will downsize proportionately. You may want to increase the widths of the various divs to compensate for this.
+3. If font sizing is changed in differing amounts on each div instead of on the overall design (ie: #sidebar1 is given a 70% font size and #mainContent is given an 85% font size), this will proportionately change each of the divs overall size. You may want to adjust these divs based on your final font sizing.
+*/
+.twoColElsLt #container { 
+	width: 46em;  /* this width will create a container that will fit in an 800px browser window if text is left at browser default font sizes */
+	background: #FFFFFF;
+	margin: 0 auto; /* the auto margins (in conjunction with a width) center the page */
+	border: 1px solid #000000;
+	text-align: left; /* this overrides the text-align: center on the body element. */
+} 
+
+/* Tips for sidebar1:
+1. Be aware that if you set a font-size value on this div, the overall width of the div will be adjusted accordingly.
+2. Since we are working in ems, it's best not to use padding on the sidebar itself. It will be added to the width for standards compliant browsers creating an unknown actual width. 
+3. Space between the side of the div and the elements within it can be created by placing a left and right margin on those elements as seen in the ".twoColElsLt #sidebar1 p" rule.
+*/
+.twoColElsLt #sidebar1 {
+	float: left;
+	width: 12em; /* the background color will be displayed for the length of the content in the column, but no further */
+	padding: 15px 0; /* top and bottom padding create visual space within this div */
+	background-color: #CCFF99;
+}
+.twoColElsLt #sidebar1 h3, .twoColElsLt #sidebar1 p {
+	margin-left: 10px; /* the left and right margin should be given to every element that will be placed in the side columns */
+	margin-right: 10px;
+}
+
+/* Tips for mainContent:
+1. If you give this #mainContent div a font-size value different than the #sidebar1 div, the margins of the #mainContent div will be based on its font-size and the width of the #sidebar1 div will be based on its font-size. You may wish to adjust the values of these divs.
+2. The space between the mainContent and sidebar1 is created with the left margin on the mainContent div.  No matter how much content the sidebar1 div contains, the column space will remain. You can remove this left margin if you want the #mainContent div's text to fill the #sidebar1 space when the content in #sidebar1 ends.
+3. To avoid float drop, you may need to test to determine the approximate maximum image/element size since this layout is based on the user's font sizing combined with the values you set. However, if the user has their browser font size set lower than normal, less space will be available in the #mainContent div than you may see on testing.
+4. In the Internet Explorer Conditional Comment below, the zoom property is used to give the mainContent "hasLayout." This avoids several IE-specific bugs that may occur.
+*/
+.twoColElsLt #mainContent {
+ 	margin: 0 1.5em 0 13em; /* the right margin can be given in ems or pixels. It creates the space down the right side of the page. */
+} 
+
+/* Miscellaneous classes for reuse */
+.fltrt { /* this class can be used to float an element right in your page. The floated element must precede the element it should be next to on the page. */
+	float: right;
+	margin-left: 8px;
+}
+.fltlft { /* this class can be used to float an element left in your page */
+	float: left;
+	margin-right: 8px;
+}
+.clearfloat { /* this class should be placed on a div or break element and should be the final element before the close of a container that should fully contain a float */
+	clear:both;
+    height:0;
+    font-size: 1px;
+    line-height: 0px;
+}
+.style1 {font-style: italic}
+.style3 {font-weight: bold}
+.style4 {font-weight: bold}
+.style5 {font-weight: bold}
+--> 
+</style>
+<!--[if IE]>
+<style type="text/css"> 
+/* place css fixes for all versions of IE in this conditional comment */
+.twoColElsLt #sidebar1 { padding-top: 30px; }
+.twoColElsLt #mainContent { zoom: 1; padding-top: 15px; }
+/* the above proprietary zoom property gives IE the hasLayout it needs to avoid several bugs */
+</style>
+<![endif]--></head>
+
+<body class="twoColElsLt">
+
+<div id="container">
+  <div class="style1" id="sidebar1">
+    <h3>Video Games are fun!</h3>
+    <p>This begins a series of lessons that highlight some important aspects of programming while being fun as well. </p>
+    <p>The game of asteroids is a simple and fun game that illustrates concepts from computer graphics, geometry, and trigonometry. </p>
+    <p>Each lesson is designed to allow the students to play with a small part of the program and extend it in some way. </p>
+    <p>The following lessons also introduce Tkinter programming which is a nice toolkit for doing Graphical User Interface design and implementation.</p>
+    <p>&nbsp;</p>
+  </div>
+  <div id="mainContent">
+    <h1>Asteroids!</h1>
+    <p>The Asteroids video game was originally designed and written by the folks at Atari. It was released to the public in 1979. In the game the player controls a spaceship that navigates space and blows up asteroids by shooting at them.</p>
+    <p>When an asteroid is hit the player scores points and the asteroid splits into two smaller asteroids. The largest asteroids are worth 20 points. Each medium asteroid is worth 50 points. The smallest asteroids are worth 100 points each. When the spaceship hits a small asteroid it is obliterated into dust and it disappears completely from the game.</p>
+    <p>If an asteroid collides with the spaceship, the spaceship is destroyed, the asteroid that collided with it is destroyed (resulting in no points) and the player gets a new spaceship. The game starts with four spaceships total (the original game started with only three). </p>
+    <p>In the original game, there were flying saucers that would periodically appear. These UFOs would shoot at the ship and if the ship fired back and blew one up, there were 200 points awarded for hitting a large UFO and 1000 points awarded for blowing up a small UFO. The version of the game described in these lessons does not include UFOs, but it could be extended to included them if you want to write the code!</p>
+    <p>Pictured here is an example of a computer game that when completed will play the game of Asteroids! You can click on the picture below to get a copy of some code that will get you started writing your own asteroids game.</p>
+    <p>Click on this picture below and copy the code to the clipboard. Then open Wing IDE 101 and create a new program file. Paste the code into the window. Save it as <strong>asteroids.py</strong>. Run the program by clicking the Debug button to see what is implemented so far.</p>
+    <p><!-- end #mainContent -->
+      <a href="LessonPrograms/asteroids.py"><img src="asteroids.gif" width="430" height="357" longdesc="/~leekent/SamplingCS/LessonPrograms/asteroids.py" /></a> </p>
+    <p>The code that was provided is not complete. To complete the game, you'll have to implement the extensions described in this and the next few lessons. But first, you need to become familiar with Python programming by examining the code you just copied. </p>
+    <p>We'll start from the top of the file and cover the code in the order that it is executed. </p>
+    <p>When writing a program, you can't possibly write all the code yourself. Python programmers  import code from other modules so they can use that code in their programs. Python comes with a large number of modules that all have <a href="http://docs.python.org/py3k/">documentation</a> to describe what they do and how to use them. You import code from a <a href="http://docs.python.org/py3k/modindex.html">module</a> by writing import statements at the top of your program.</p>
+    <pre><strong>from turtle import *
+import tkinter.messagebox
+import tkinter
+import random
+import math</strong></pre>
+    <p>These import statements import code from five modules. The turtle module implements <a href="http://docs.python.org/dev/3.0/library/turtle.html">turtle graphics</a>. Turtle graphics emulates a turtle on a sandy beach. When the turtle drags its tail it leaves a trail. This is a paradigm (a way of thinking about) implementing vector graphics. You should examine the turtle graphics documentation to learn what a turtle can do when using turtle graphics.</p>
+    <p>The <a href="http://infohost.nmt.edu/tcc/help/pubs/tkinter/">tkinter modules</a> implement GUI (graphical user interface) programming. Graphical User Interfaces are programs that display a window like the one above.</p>
+    <p>The <a href="http://docs.python.org/py3k/library/random.html#module-random">random module</a> makes it easy to generate random numbers. You need random numbers to build an interesting game. </p>
+    <p>The <a href="http://docs.python.org/py3k/library/math.html#module-math">math module</a> implements functions like square root and cosine and sine. </p>
+    <p>After the import statements are four variables that are assigned values: screenMinX, screenMinY, screenMaxX, and screenMaxY. The values -500 and 500 are stored as values and named with these names. Variables are just like named memory locations in your calculator. You can store values so they can be easily retrieved earlier. </p>
+    <p>After the four variables comes two class definitions. These class definitions define what a Spaceship looks like and how it acts in the program and what an Asteriod looks like and does as well. We'll skip to after these class definitions for now. </p>
+    <p>The intersect function is a function that returns True if two objects intersect (like an Asteroid and the Ship) and False if they do not intersect. It is not used for now so we'll come back to it later. </p>
+    <p>Finally the main function is where everything gets started. The main function is called on the last line of the program. Calling a function is just like calling a function in Mathematics. You write the name of the function to call it followed by parentheses and then the information you want to pass to a function. Nothing is passed to the main function on the last line of the program. It is just called to get everything started.</p>
+    <p>The first few lines build the GUI window and get a Turtle Graphics session started.</p>
+    <pre class="style3"> # Start by creating a RawTurtle object for the window. 
+ root = tkinter.Tk()
+ root.title(&quot;Asteroids!&quot;)
+ cv = ScrolledCanvas(root,600,600,600,600)
+ cv.pack(side = tkinter.LEFT)
+ t = RawTurtle(cv)</pre>
+    <pre><strong> screen = t.getscreen()
+ screen.setworldcoordinates(screenMinX,screenMinY, 
+    screenMaxX,screenMaxY)
+ screen.register_shape(&quot;rock3&quot;,((-20, -16),(-21, 0), 
+    (-20,18),(0,27),(17,15),(25,0),(16,-15),(0,-21)))
+ screen.register_shape(&quot;rock2&quot;,((-15, -10),(-16, 0), 
+    (-13,12),(0,19),(12,10),(20,0),(12,-10),(0,-13)))
+ screen.register_shape(&quot;rock1&quot;,((-10,-5),(-12,0),
+    (-8,8),(0,13),(8,6),(14,0),(12,0),(8,-6),(0,-7)))
+ screen.register_shape(&quot;ship&quot;,((-10,-10),(0,-5),(10,-10),(0,10)))
+ screen.register_shape(&quot;bullet&quot;,((-2,-4),(-2,4),(2,4),(2,-4)))
+ frame = tkinter.Frame(root)
+ frame.pack(side = tkinter.RIGHT,fill=tkinter.BOTH)
+ t.ht()</strong></pre>
+    <p>The root variable above is the root window of the GUI program. The cv variable is the canvas where the turtle graphics displays. </p>
+    <p>The screen is the turtle graphics screen. The world coordinates is the coordinate system for the turtle graphics area (i.e. -500 to 500 in the X and Y directions).</p>
+    <p>The shapes that are registered are the shapes of each of the elements of the game: asteroids (i.e. rocks), a spaceship, and the bullets.</p>
+    <p>Finally a frame is just a container for other tkinter widgets. A widget is an element of a GUI program like a button. The quit button is placed within the frame with this code.</p>
+    <pre class="style4"> def quitHandler():
+       root.destroy()
+       root.quit()</pre>
+    <pre><strong> quitButton = tkinter.Button(frame, text = &quot;Quit&quot;, \
+       command=quitHandler)
+ quitButton.pack()</strong>
+
+</pre>
+    <p>The code above tells Python to call the quitHandler function when the quit button is pressed while Asteroids is running. </p>
+    <p>The line below creates a spaceship for the application. </p>
+    <pre><strong>ship = SpaceShip(cv,0,0,(screenMaxX-screenMinX)/2+screenMinX,
+(screenMaxY-screenMinY)/2 + screenMinY)<br></strong></pre>
+    <h2>Now You Try It</h2>
+    <p>When a spaceship is created it uses the ShaceShip class. This is the code that starts <strong>class SpaceShip</strong>. The class definition says what a spaceship is and what a spaceship does. A spaceship is a turtle because it inherits from RawTurtle (which is a type of Turtle). You can review the turtle module documentation to see what a turtle is. In addition to being a turtle, it can also be told to move, fire its engine, and we can get its current X and Y trajectory (called dx and dy). </p>
+    <p>You can customize your program by picking a color for your ship. Turtle graphics has lots of colors predefined, so you should be able to find something you like. However, pretty much any color can also be created by writing</p>
+    <pre><strong>self.color(&quot;#ffff00&quot;)</strong></pre>
+    <p>This creates the color yellow using <a href="http://en.wikipedia.org/wiki/Hexadecimal">hexadecimal numbers</a>. Each color that can be displayed is composed of a red, green, and blue component. Numbers from 0 (<strong>00</strong> in hexadecimal) to 255 (<strong>ff</strong> in hexadecimal) are used to indicate how much red, green, and blue should be included in a color. So full red and green mixed makes yellow. </p>
+    <p>Play with this. Pick a color for your spaceship and for your asteroids. Run the program to see that your colors are working and that you like them.</p>
+    <h2>Playing the Game</h2>
+    <p>Playing an asteroids game means moving the ship and the asteroids around the screen. This code creates a list of five big asteroids for the game.</p>
+    <pre><strong> asteroids = []
+         
+ for k in range(5):
+   dx = random.random() * 6 - 3
+   dy = random.random() * 6 - 3
+   x = random.random() * (screenMaxX - screenMinX) + screenMinX
+   y = random.random() * (screenMaxY - screenMinY) + screenMinY</strong></pre>
+    <pre><strong> asteroid = Asteroid(cv,dx,dy,x,y,3)</strong></pre>
+    <pre><strong> asteroids.append(asteroid)</strong></pre>
+    <p>To make the game animated, a play function is repeatedly called to move the game's objects around on the screen. The following code accomplishes this by setting a timer to call the play function. When the play function is called, another timer is set to call it again. In this way, the play function is called over and over again to move the spaceship and asteroids.</p>
+    <pre class="style5"> def play():
+   # Tell all the elements of the game to move
+   ship.move()
+ 
+   for asteroid in asteroids:
+     asteroid.move()</pre>
+    <pre><strong>   # Set the timer to go off again in 5 milliseconds
+   screen.ontimer(play, 5)</strong></pre>
+    <pre><strong> # The following line sets the timer to call the play function
+ # the first time only. 
+ screen.ontimer(play, 5)</strong></pre>
+    <p>We'll be making changes to this code to play the rest of the game as we work to complete this game.</p>
+    <h2>Responding to Input</h2>
+    <p>For the game to be interesting, we must get some input from the user. The keypad will work nicely for this. We'll have the number 4 turn the spaceship to the left and the number 5 start the spaceship moving. Here is the code that does this.</p>
+    <pre><strong> def turnLeft():
+ 	ship.setheading(ship.heading()+7)
+ 
+ # This tells the turtle graphics when a 4 is pressed to
+ # call the turnLeft function
+ screen.onkeypress(turnLeft,&quot;4&quot;)
+ 
+ def forward():
+ 	ship.fireEngine()
+ 
+ # This tells the turtle graphics when a 5 is pressed to 
+ # call the forward function when immediately calls the 
+ # fireEngine function on the ship.
+ screen.onkeypress(forward,&quot;5&quot;)</strong></pre>
+    <h2>Now You Try It</h2>
+    <p>Write the code so when 6 is pressed that the ship turns to the right. Calling the heading function on the ship returns its heading in degrees (from 0 to 360 degrees). Calling the setheading function on the ship sets a new heading for the ship. The ship is also a turtle. So, heading and setheading are functions that are defined on turtles. Adding 7 degrees to the turtle heading turns the ship to the left. How do you make it turn to the right? </p>
+    <p>Write the code and then run it to see that it works correctly. </p>
+    <h2>Have Extra Time?</h2>
+    <p>By changing the register shape calls you can design your own space ship and asteroids. The rock3 asteroid is the largest of the asteroids. The rock2 and rock1 you can't see yet. </p>
+    <p>Before making any new designs, be sure to copy the line you are changing and comment out the copy by adding a # sign to the beginning of the line. That way you are saving a copy of what you had to start with. </p>
+    <h2>What's Next?</h2>
+    <p>In the next lesson, we'll discover how to fire Photon Torpedoes from our spaceship!</p>
+  </div>
+  <!-- This clearing element should immediately follow the #mainContent div in order to force the #container div to contain all child floats --><br class="clearfloat" />
+<!-- end #container --></div>
+</body>
+</html>
